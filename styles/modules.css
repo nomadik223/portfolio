@@ -1,15 +1,12 @@
 .site-header {
-  background: #FFEAAA;
   min-height: 30%;
 }
 
-/* REVIEW: Float the main header to the left, to make room for the hamburger menu. */
 .heading-group-h1 {
-  float: left;
   padding: 0 0 .2em 1em;
 }
 .heading-group-h1 h2{
-  font-family: "Comic Sans MS";
+  font-family: Helvetica;
   font-style: italic;
 }
 
@@ -23,11 +20,7 @@ footer {
   background-color: black;
   color: white;
 }
-/*.heading-group-h1 h2 {
-  font-size: 100%;
-}*/
 
-/* TODO: Add styles for the icon-menu class. It should be bigger, and off to the right. */
 .icon-menu {
   float:right;
   font-size: 2em;
