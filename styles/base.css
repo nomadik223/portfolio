@@ -47,3 +47,15 @@ a:hover, a:focus {
 
 a:visited {
 }
+
+#new-form {
+  color: black;
+}
+
+#filters {
+  color: black;
+}
+
+#article-json {
+  color: black;
+}
