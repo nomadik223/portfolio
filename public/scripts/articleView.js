@@ -1,13 +1,13 @@
 'use strict';
 
-var articleView = {};
+const articleView = {};
 
 articleView.populateFilters = function() {
   $('article').each(function() {
     if (!$(this).hasClass('template')) {
-      var val = $(this).find('address a').text();
-      var optionTag = `<option value="${val}">${val}</option>`;
-
+      let val = $(this).find('address a').text();
+      let optionTag = `<option value="${val}">${val}</option>`;
+      
       if ($(`#author-filter option[value="${val}"]`).length === 0) {
         $('#author-filter').append(optionTag);
       }
@@ -48,9 +48,9 @@ articleView.handleCategoryFilter = function() {
 };
 
 articleView.handleMainNav = function() {
-  $('.main-nav').on('click', '.tab', function(e) {
+  $('.main-nav').on('click', '.tab', function() {
     $('.tab-content').hide();
-    $('#' + $(this).data('content')).fadeIn();
+    $(`#${$(this).data('content')}`).fadeIn();
   });
 
   $('.main-nav .tab:first').click();
@@ -68,41 +68,42 @@ articleView.setTeasers = function() {
 
 articleView.initNewArticlePage = function() {
   $('.tab-content').show();
-
   $('#export-field').hide();
-
   $('#article-json').on('focus', function(){
     this.select();
   });
 
-  $('#new-form').on('change', function() {
-    $('#new-form').on('change', 'input', articleView.create);
-  });
+  $('#new-form').on('change', 'input, textarea', articleView.create);
 };
 
 articleView.create = function() {
-  var article;
-  $('#article-preview').empty();
+  let article;
+  $('#articles').empty();
 
   article = new Article({
     title: $('#article-title').val(),
-    category: $('#article-subject').val(),
+    author: $('#article-author').val(),
+    authorUrl: $('#article-author-url').val(),
+    category: $('#article-category').val(),
     body: $('#article-body').val(),
     publishedOn: $('#article-published:checked').length ? new Date() : null
   });
 
-  $('#article-preview').append(article.toHtml());
+  $('#articles').append(article.toHtml());
 
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
 
   $('#export-field').show();
-  $('#article-json').val(JSON.stringify(article) + ',');
+  $('#article-json').val(`${JSON.stringify(article)},`);
 };
 
-
 articleView.initIndexPage = function() {
+  Article.all.forEach(function(a) {
+    $('#articles').append(a.toHtml())
+  });
+
   articleView.populateFilters();
   articleView.handleCategoryFilter();
   articleView.handleAuthorFilter();

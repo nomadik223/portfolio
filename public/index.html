@@ -15,6 +15,10 @@
       <article class="clearfix" data-author="{{author}}" data-category="{{category}}">
         <header>
           <h1>{{title}}</h1>
+          <div class="byline">
+            By <address><a href="{{authorUrl}}">{{author}}</a></address>
+            {{publishStatus}}
+          </div>
         </header>
         <section class="article-body">{{{body}}}</section>
         <a href="#" class="read-on">Read on &rarr;</a>
@@ -24,42 +28,48 @@
   <body>
     <header class="site-header clearfix">
       <section class="heading-group-h1">
-        <h1>Austin Rogers</h1>
-        <h2>Programmer and general nerd</h2>
+        <h1>
+          Kilovolt Blog!
+        </h1>
+        <h2>The shocking power of static pages</h2>
       </section>
       <nav class="main-nav">
         <div class="icon-menu"></div>
         <ul>
           <li class="tab" data-content="articles"><a href="#" class="icon-home"> Home</a></li>
           <li class="tab" data-content="about"><a href="#" class="icon-address-book"> About</a></li>
-          <li><a href="http://twitter.com/nomadik223" target="_blank" class="icon-twitter3"> Twitter</a></li>
-          <li><a href="http://github.com/nomadik223" target="_blank" class="icon-github"> GitHub</a></li>
+          <li><a href="http://twitter.com/brookr" target="_blank" class="icon-twitter3"> Twitter</a></li>
+          <li><a href="http://github.com/brookr" target="_blank" class="icon-github"> GitHub</a></li>
         </ul>
       </nav>
     </header>
     <main>
       <section id="articles" class="tab-content">
-        <!-- <div>
+        <div>
           <ul id="filters">
             <li>
-              <select id="subject-filter">
-                <option value=""> Filter by Subject </option>
+              <select id="author-filter">
+                <option value="">-- Filter by Authors --</option>
+              </select>
+            </li>
+            <li>
+              <select id="category-filter">
+                <option value="">-- Filter by Categories --</option>
               </select>
             </li>
           </ul>
-        </div> -->
+        </div>
       </section>
       <section id="about" class="tab-content">
         <header>
-          Welcome to my Blog!
+          Welcome to my Blog
         </header>
         <section>
           <h1>Some of my intrests:</h1>
           <ul>
-            <li>Writing Fanfiction</li>
-            <li>Playing a wide variety of videogames</li>
-            <li>Relaxing with my best friends</li>
-            <li>Playing DnD</li>
+            <li>Coding</li>
+            <li>Sharing what I've learned</li>
+            <li>Hanging with my family</li>
           </ul>
         </section>
       </section>
@@ -69,14 +79,12 @@
     </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
-    <script src="vendor/scripts/marked.js"></script>
-    <script src="vendor/scripts/highlight.pack.js"></script>
-    <script src="scripts/blogArticles.js"></script>
-    <script src="scripts/article.js"></script>
-    <script src="scripts/articleView.js"></script>
+    <script src="/vendor/scripts/handlebars.js"></script>
+    <script src="/vendor/scripts/marked.js"></script>
+    <script src="/scripts/article.js"></script>
+    <script src="/scripts/articleView.js"></script>
     <script>
-      articleView.initIndexPage()
+      Article.fetchAll(articleView.initIndexPage);
     </script>
   </body>
 </html>
