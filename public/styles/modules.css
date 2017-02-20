@@ -6,6 +6,11 @@
   padding: 0 0 .2em 1em;
 }
 
+
+/* REVIEW Your hamburger is kind of in a weird spot in movile, maybe put it up more
+in the corner and give it some margin away from the edge of the screen, try
+using position absolute or fixed and use top: bottom: etc */
+
 .icon-menu {
   font-size: 3em;
   float: right;
@@ -58,6 +63,7 @@
 }
 
 @media only screen and (min-width: 640px) {
+
   .icon-menu {
     display: none;
   }
