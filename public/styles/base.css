@@ -3,7 +3,7 @@
 }
 
 html {
-  background-image: image(backgroundPort.png);
+  background-image: image(public/styles/backgroundPort.png);
 }
 img {
   max-width: 100%;
