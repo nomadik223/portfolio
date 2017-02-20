@@ -29,7 +29,7 @@ Article.loadAll = function(rows) {
 };
 
 Article.fetchAll = function(callback) {
-  $.get('/articles')
+  $.get('articles')
   .then(
     function(results) {
       if (results.length) {
