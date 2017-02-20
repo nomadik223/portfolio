@@ -3,7 +3,7 @@
 }
 
 html {
-  background-image: image(public/styles/backgroundPort.png);
+  background-image:
 }
 img {
   max-width: 100%;
@@ -87,5 +87,5 @@ input:valid, textarea:valid {
 }
 
 li {
-  style: none;
+  list-style: none;
 }
