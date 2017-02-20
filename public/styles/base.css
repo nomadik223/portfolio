@@ -1,3 +1,10 @@
+* {
+  text-align: center;
+}
+
+html {
+  background-image: image(backgroundPort.png);
+}
 img {
   max-width: 100%;
 }
