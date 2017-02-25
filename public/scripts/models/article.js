@@ -20,7 +20,7 @@
           Article.loadAll(results);
           callback();
         } else {
-          $.getJSON('./data/hackerIpsum.json')
+          $.getJSON('./data/exampleText.json')
           .then(rawData => {
             rawData.forEach(item => {
               let article = new Article(item);
