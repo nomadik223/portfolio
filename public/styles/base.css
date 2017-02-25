@@ -2,6 +2,7 @@
   text-align: center;
   background-color: transparent;
   color: white;
+  min-width: 100%;
 }
 
 html {
