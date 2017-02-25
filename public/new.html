@@ -33,15 +33,15 @@
     <header class="site-header clearfix">
       <section class="heading-group-h1 pull-left">
         <h1>
-          SUP NERD!?
+          Kilovolt Blog!
         </h1>
-        <h2>Ready to write some new shit?</h2>
+        <h2>The shocking power of static pages</h2>
       </section>
       <nav class="main-nav">
         <div class="icon-menu"></div>
         <ul>
           <li class="tab" data-content="write"><a href="#" class="icon-home"> Write</a></li>
-          <li class="tab" data-content="articles"><a href="#" class="icon-home"> Preview</a></li>
+          <li class="tab" data-content="articles"><a href="index.html" class="icon-home"> Preview</a></li>
         </ul>
       </nav>
     </header>
@@ -85,10 +85,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
     <script src="vendor/scripts/marked.js"></script>
     <script src="vendor/scripts/highlight.pack.js"></script>
-    <script src="scripts/article.js"></script>
-    <script src="scripts/articleView.js"></script>
-    <script>
-      articleView.initNewArticlePage();
-    </script>
+
+    <script src="scripts/models/article.js"></script>
+    <script src="scripts/views/newArticle.js"></script>
   </body>
 </html>

@@ -3,9 +3,9 @@
 const pg = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 3000;
+const requestProxy = require('express-request-proxy');
 const app = express();
-
+const PORT = process.env.PORT || 3000;
 const conString = 'postgres://localhost:5432';
 const client = new pg.Client(conString);
 client.connect();
@@ -14,15 +14,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./public'));
 
-app.get('/', function(request, response) {
-  response.sendFile('index.html', {root: '.'});
-});
+function proxyGitHub(request, response) {
+  console.log('Routing GitHub request for', request.params[0]);
+  (requestProxy({
+    url: `https://api.github.com/${request.params[0]}`,
+    headers: {Authorization: `token ${process.env.GITHUB_TOKEN}`}
+  }))(request, response);
+}
 
-app.get('/new', function(request, response) {
-  response.sendFile('new.html', {root: '.'});
-});
+app.get('/', (request, response) => response.sendFile('index.html', {root: './public'}));
+app.get('/new', (request, response) => response.sendFile('new.html', {root: './public'}));
+app.get('/about', (request, response) => response.sendFile('index.html', {root: './public'}));
+app.get('/github/*', proxyGitHub);
 
-app.get('/articles', function(request, response) {
+
+app.get('/articles', (request, response) => {
   client.query(`
     CREATE TABLE IF NOT EXISTS
     authors (
@@ -46,18 +52,53 @@ app.get('/articles', function(request, response) {
     SELECT * FROM articles
     INNER JOIN authors
       ON articles.author_id=authors.author_id;`,
-    function(err, result) {
+    (err, result) => {
       if (err) console.error(err);
       response.send(result.rows);
     }
   );
 });
 
-app.post('/articles', function(request, response) {
+app.get('/articles/find', (request, response) => {
+  let client = new pg.Client(conString);
+  let sql = `SELECT * FROM articles
+            INNER JOIN authors
+            ON articles.author_id=authors.author_id
+            WHERE ${request.query.field}=$1`
+
+  client.connect(err => {
+    if (err) console.error(err);
+    client.query(
+      sql,
+      [request.query.val],
+      (err, result) => {
+        if (err) console.error(err);
+        response.send(result.rows);
+        client.end();
+      }
+    )
+  })
+})
+
+
+app.get('/categories', (request, response) => {
+  let client = new pg.Client(conString);
+
+  client.connect(err => {
+    if (err) console.error(err);
+    client.query(`SELECT DISTINCT category FROM articles;`, (err, result) => {
+      if (err) console.error(err);
+      response.send(result.rows);
+      client.end();
+    })
+  })
+})
+
+app.post('/articles', (request, response) => {
   client.query(
     'INSERT INTO authors(author, "authorUrl") VALUES($1, $2) ON CONFLICT DO NOTHING',
     [request.body.author, request.body.authorUrl],
-    function(err) {
+    err => {
       if (err) console.error(err)
       queryTwo()
     }
@@ -67,7 +108,7 @@ app.post('/articles', function(request, response) {
     client.query(
       `SELECT author_id FROM authors WHERE author=$1`,
       [request.body.author],
-      function(err, result) {
+      (err, result) => {
         if (err) console.error(err)
         queryThree(result.rows[0].author_id)
       }
@@ -86,7 +127,7 @@ app.post('/articles', function(request, response) {
         request.body.publishedOn,
         request.body.body
       ],
-      function(err) {
+      err => {
         if (err) console.error(err);
         response.send('insert complete');
       }
@@ -94,11 +135,11 @@ app.post('/articles', function(request, response) {
   }
 });
 
-app.put('/articles/:id', function(request, response) {
+app.put('/articles/:id', (request, response) => {
   client.query(
     `SELECT author_id FROM authors WHERE author=$1`,
     [request.body.author],
-    function(err, result) {
+    (err, result) => {
       if (err) console.error(err)
       queryTwo(result.rows[0].author_id)
       queryThree(result.rows[0].author_id)
@@ -127,27 +168,27 @@ app.put('/articles/:id', function(request, response) {
         request.body.body,
         request.params.id
       ],
-      function(err) {
+      err => {
         if (err) console.error(err);
-        response.send('insert complete');
+        response.send('update complete');
       }
     );
   }
 });
-  app.delete('/articles/:id', function(request, response) {
-    client.query(
+
+app.delete('/articles/:id', (request, response) => {
+  client.query(
     `DELETE FROM articles WHERE article_id=$1;`,
     [request.params.id]
-  );response.send('Delete complete');
+  );
+  response.send('Delete complete');
 });
 
-app.delete('/articles', function(request, response) {
+app.delete('/articles', (request, response) => {
   client.query(
     'DELETE FROM articles;'
   );
   response.send('Delete complete');
 });
 
-app.listen(PORT, function() {
-  console.log(`Server started on port ${PORT}!`);
-});
+app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));

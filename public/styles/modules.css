@@ -1,8 +1,9 @@
 .site-header {
-  /*background: #FFEAAA;*/
+  background: #FFEAAA;
 }
 
 .heading-group-h1 {
+  float: left;
   padding: 0 0 .2em 1em;
 }
 

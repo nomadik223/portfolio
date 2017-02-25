@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Austin Rogers</title>
+    <title>Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="vendor/styles/normalize.css">
     <link rel="stylesheet" href="styles/icons.css">
@@ -21,25 +21,41 @@
           </div>
         </header>
         <section class="article-body">{{{body}}}</section>
-        <a href="#" class="read-on">Read on &rarr;</a>
+          <a href="/article/{{article_id}}" class="read-on">Read on &rarr;</a>
       </article>
+    </script>
+
+    <script id="repo-template" type="text/x-handlebars-template">
+      <li>
+        <a href="{{html_url}}" target="_blank"><h3>{{name}}</h3></a>
+        <p>Description: {{description}}</p>
+        <p>Language: {{language}}</p>
+        <p>Created: {{created_at}}</p>
+        <p>Last updated: {{updated_at}}</p>
+        {{#if watchers_count}}
+          <p>{{watchers_count}} watching this repo</p>
+        {{/if}}
+      </li>
+    </script>
+    <script id="option-template" type="text/x-handlebars-templage">
+      <option value="{{val}}">{{val}}</option>
     </script>
   </head>
   <body>
     <header class="site-header clearfix">
       <section class="heading-group-h1">
         <h1>
-          Austin Rogers
+          Kilovolt Blog!
         </h1>
-        <h2>Portfolio</h2>
+        <h2>The shocking power of static pages</h2>
       </section>
       <nav class="main-nav">
         <div class="icon-menu"></div>
         <ul>
-          <li class="tab" data-content="articles"><a href="#" class="icon-home"> Home</a></li>
-          <li class="tab" data-content="about"><a href="#" class="icon-address-book"> About</a></li>
-          <li><a href="http://twitter.com/nomadik223" target="_blank" class="icon-twitter3"> Twitter</a></li>
-          <li><a href="http://github.com/nomadik223" target="_blank" class="icon-github"> GitHub</a></li>
+          <li class="tab" data-content="articles"><a href="/" class="icon-home"> Home</a></li>
+          <li class="tab" data-content="about"><a href="/about" class="icon-address-book"> About</a></li>
+          <li><a href="http://twitter.com/brookr" target="_blank" class="icon-twitter3"> Twitter</a></li>
+          <li><a href="http://github.com/brookr" target="_blank" class="icon-github"> GitHub</a></li>
         </ul>
       </nav>
     </header>
@@ -68,8 +84,8 @@
           <h1>Some of my intrests:</h1>
           <ul>
             <li>Coding</li>
-            <li>Videogames</li>
-            <li>Writing Fanfiction</li>
+            <li>Sharing what I've learned</li>
+            <li>Hanging with my family</li>
           </ul>
         </section>
       </section>
@@ -79,12 +95,18 @@
     </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="./vendor/scripts/handlebars.js"></script>
-    <script src="./vendor/scripts/marked.js"></script>
-    <script src="./scripts/article.js"></script>
-    <script src="./scripts/articleView.js"></script>
-    <script>
-      Article.fetchAll(articleView.initIndexPage);
-    </script>
+    <script src="/vendor/scripts/handlebars.js"></script>
+    <script src="/vendor/scripts/marked.js"></script>
+    <script src="/vendor/scripts/page.js"></script>
+
+    <script src="/scripts/models/article.js"></script>
+    <script src="/scripts/views/articleView.js"></script>
+    <script src="/scripts/controllers/articleController.js"></script>
+
+    <script src="/scripts/models/repo.js"></script>
+    <script src="/scripts/views/repoView.js"></script>
+    <script src="/scripts/controllers/aboutController.js"></script>
+
+    <script src="/scripts/controllers/routes.js"></script>
   </body>
 </html>
