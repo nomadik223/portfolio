@@ -1,10 +1,11 @@
 'use strict';
+
 const pg = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
-const conString = 'postgres://localhost:5432';
+const conString = 'postgres://localhost:5432'; // DONE: Don't forget to set your own conString
 const client = new pg.Client(conString);
 client.connect();
 
@@ -13,9 +14,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./public'));
 
 
+// NOTE: Routes for requesting HTML resources
 app.get('/', (request, response) => response.sendFile('index.html', {root: '.'}));
 app.get('/new', (request, response) => response.sendFile('new.html', {root: '.'}));
 
+
+// NOTE: Routes for making API calls to enact CRUD Operations on our database
 app.get('/articles', (request, response) => {
   client.query(`
     CREATE TABLE IF NOT EXISTS

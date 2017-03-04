@@ -29,15 +29,16 @@
     <header class="site-header clearfix">
       <section class="heading-group-h1">
         <h1>
-          Austin Rogers
+          Kilovolt Blog!
         </h1>
-        <h2>I reused the hackeripsum.js for now cause I'm lazy.</h2>
+        <h2>The shocking power of static pages</h2>
       </section>
       <nav class="main-nav">
         <div class="icon-menu"></div>
         <ul>
-          <li class="tab" data-content="articles"><a href="#" class="icon-home"> Home</a></li>
-          <li class="tab" data-content="about"><a href="#" class="icon-address-book"> About</a></li>
+          <!-- DONE: Refactor the href attributes in the Home and About anchor tags to navigate users to our new client-side routes -->
+          <li class="tab" data-content="articles"><a href="/" class="icon-home"> Home</a></li>
+          <li class="tab" data-content="about"><a href="/about" class="icon-address-book"> About</a></li>
           <li><a href="http://twitter.com/brookr" target="_blank" class="icon-twitter3"> Twitter</a></li>
           <li><a href="http://github.com/brookr" target="_blank" class="icon-github"> GitHub</a></li>
         </ul>
@@ -77,14 +78,18 @@
     <footer>
       &copy; 2017 Code Fellows | Static Blog | Happy Ipsum!
     </footer>
+    <!-- DONE: Be sure to include the routing functionality with the correct script files: -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/vendor/scripts/page.js"></script>
     <script src="/vendor/scripts/handlebars.js"></script>
     <script src="/vendor/scripts/marked.js"></script>
-    <script src="/scripts/article.js"></script>
-    <script src="/scripts/articleView.js"></script>
-    <script>
-      Article.fetchAll(articleView.initIndexPage);
-    </script>
+
+    <script src="/scripts/models/article.js"></script>
+    <script src="/scripts/views/articleView.js"></script>
+    <script src="/scripts/controllers/articleController.js"></script>
+
+    <script src="/scripts/controllers/aboutController.js"></script>
+    <script src="/scripts/controllers/routes.js"></script>
   </body>
 </html>

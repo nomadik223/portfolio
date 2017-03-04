@@ -1,9 +1,7 @@
 'use strict';
 
-(function (module) {
-
+(function(module) {
   function Article(opts) {
-    // REVIEW: Lets review what's actually happening here, and check out some new syntax!!
     Object.keys(opts).forEach(e => this[e] = opts[e]);
   }
 
@@ -19,17 +17,14 @@
     return template(this);
   };
 
+
   Article.loadAll = rows => {
     rows.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)));
-
-  Article.all = rows.map(function(ele){
-    return new Article(ele);
-  })
-
+    Article.all = rows.map(ele => new Article(ele));
   };
 
   Article.fetchAll = callback => {
-    $.get('Articles')
+    $.get('/articles')
     .then(
       results => {
         if (results.length) {
@@ -51,37 +46,35 @@
   };
 
   Article.numWordsAll = () => {
-    return Article.all.map(function(article){
-        return article.body.split(' ');
-    }).reduce(function(preVal, newVal){
-        let finalVal = preVal + newVal;
-        return finalVal;
-    }, 0);
+    return Article.all.map(article => article.body.match(/\b\w+/g).length)
+                      .reduce((a, b) => a + b)
   };
 
   Article.allAuthors = () => {
-    return Article.all.map(function(article){
-        return article.author;
-    }).filter(function(author, index, authorArray){
-        return authorArray.indexOf(author) === index;
-    })
+    return Article.all.map(article => article.author)
+                      .reduce((names, name) => {
+                        if (names.indexOf(name) === -1) names.push(name);
+                        return names;
+                      }, []);
   };
 
   Article.numWordsByAuthor = () => {
     return Article.allAuthors().map(author => {
       return {
-          name: author,
-          count: Article.all.filter(function(article){
-              return article.author === author;
-          }).map(function(article){
-              return article.body.split(' ')
-          }).reduce(function(preVal, newVal){
-              let finalVal = preVal + newVal;
-              return finalVal;
-          })
+        name: author,
+        numWords: Article.all.filter(a => a.author === author)
+                             .map(a => a.body.match(/\b\w+/g).length)
+                             .reduce((a, b) => a + b)
       }
-
     })
+  };
+
+  Article.stats = () => {
+    return {
+      numArticles: Article.all.length,
+      numWords: Article.numWordsAll(),
+      Authors: Article.allAuthors(),
+    }
   };
 
   Article.truncateTable = callback => {
@@ -119,10 +112,10 @@
         category: this.category,
         publishedOn: this.publishedOn,
         title: this.title}
-      })
-      .then(console.log)
-      .then(callback);
-    };
+    })
+    .then(console.log)
+    .then(callback);
+  };
 
-    module.Article = Article;
+  module.Article = Article;
 })(window);
